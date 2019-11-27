@@ -149,7 +149,20 @@ const useClippy = (): ClipboardTuple => {
     }
   }, [ clipboard ]);
 
-  React.useLayoutEffect(() => {
+  React.useEffect((): void | VoidFunction => {
+    const documentClipboardListener = () => {
+      const selection = document.getSelection();
+      if (selection) {
+        setClipboard(selection.toString());
+      }
+    };
+
+    document.addEventListener('copy', documentClipboardListener);
+
+    return () => document.removeEventListener('copy', documentClipboardListener);
+  }, [ clipboard ]);
+
+  React.useLayoutEffect((): void | VoidFunction => {
     // Try to read synchronously.
     try {
       const text: string = read();
