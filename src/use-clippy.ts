@@ -82,7 +82,7 @@ const createInput = (): HTMLInputElement => {
   i.style.setProperty('min-height', '1px');
   i.style.setProperty('min-width', '1px');
   i.style.setProperty('outline-color', 'transparent');
-  i.style.setProperty('position', 'absolute');
+  i.style.setProperty('position', 'fixed');
   i.style.setProperty('width', '1px');
   document.body.appendChild(i);
   return i;
