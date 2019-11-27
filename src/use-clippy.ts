@@ -149,28 +149,30 @@ const useClippy = (): ClipboardTuple => {
     }
   }, [ clipboard ]);
 
-  // Try to read synchronously.
-  try {
-    const text: string = read();
-    if (clipboard !== text) {
-      setClipboard(text);
+  React.useLayoutEffect(() => {
+    // Try to read synchronously.
+    try {
+      const text: string = read();
+      if (clipboard !== text) {
+        setClipboard(text);
+      }
     }
-  }
 
-  // If synchronous reading is disabled, try to read asynchronously.
-  catch (e) {
-    if (isClipboardApiEnabled(navigator)) {
-      (async (): Promise<void> => {
-        try {
-          const text: string = await navigator.clipboard.readText();
-          if (clipboard !== text) {
-            setClipboard(text);
+    // If synchronous reading is disabled, try to read asynchronously.
+    catch (e) {
+      if (isClipboardApiEnabled(navigator)) {
+        (async (): Promise<void> => {
+          try {
+            const text: string = await navigator.clipboard.readText();
+            if (clipboard !== text) {
+              setClipboard(text);
+            }
           }
-        }
-        catch (_e) { }
-      })();
+          catch (_e) { }
+        })();
+      }
     }
-  }
+  }, []);
 
   const syncClipboard = React.useCallback(async (text: string): Promise<void> => {
     try {
