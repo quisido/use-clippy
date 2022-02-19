@@ -24,7 +24,7 @@ interface ClipboardEventTarget extends EventTarget {
     void;
 }
 
-interface ClipboardNavigator extends Navigator {
+interface ClipboardNavigator {
   clipboard: Clipboard & ClipboardEventTarget;
 }
 
@@ -47,7 +47,7 @@ const getClipboardData = (w: ClipboardDataWindow | Window): DataTransfer | null 
   return null;
 };
 
-const isClipboardApiEnabled = (navigator: Navigator): navigator is ClipboardNavigator => (
+const isClipboardApiEnabled = (navigator: Navigator): navigator is ClipboardNavigator & Navigator => (
   typeof navigator === 'object' &&
   typeof navigator.clipboard === 'object'
 );
